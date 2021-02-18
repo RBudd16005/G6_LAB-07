@@ -9,7 +9,7 @@
  **********************************************/
 #include <iostream>
 #include <iomanip>
-#include <string>
+#include <string.h>
 using namespace std;
 
 void one(long number);
@@ -102,26 +102,67 @@ void two(long number)              // 345678
         << "-------------------+"
         << "-------------------+"
         << "-----------------+\n";
-   for (long i = 24; i >= -4; i--)   // You may need to change 24 to another number
+        long *a = &bow;
+   for (long i = 99; i >= -4; i--)
    {
-      ////////////////////////////////////////////////
-      // Insert code here to display the callstack
-
-      //
-      ////////////////////////////////////////////////
+        char *c = reinterpret_cast<char*>(a + i);
+        cout << '[' << setw(2) << i << ']'
+             << setw(15) << a + i
+             << setw(20) << (void*)a[i]
+             << setw(20) << (int)a[i]
+             << setw(18) << c
+             << endl;
    }
 
-   ////////////////////////////////////////////////
-   // Insert code here to change the variables in main()
-
    // change text in main() to "*main**"
+   char *newMain;
+   for(int i = 100; i > 0; i--)
+   {
+       if((int)a[i] == 1229016362)
+       {
+           newMain = reinterpret_cast<char*>(a + i);
+           strcpy(newMain,"*main**");
+           break;
+       }
+   }
 
    // change number in main() to 654321
+   long *newNumber;
+   for(int i = 100; i > 0 ; i--)
+   {
+       if((int)a[i] == 123456)
+       {
+           newNumber = a + i;
+           break;
+       }
+   }
+   *newNumber = 654321;
 
    // change pointerFunction in main() to point to pass
+   long *newFunction;
+   for(int i = 100; i > 0 ; i--)
+   {
+       if((int)a[i] == 4199794)
+       {
+           newFunction = a+i;
+           *newFunction = (long*)pass;
+           break;
+       }
+   }
 
    // change message in main() to point to passMessage
+   long *newMessage;
+   long *b = &bow;
+   for(int i = 100; i > 0 ; i--)
+   {
+       if((int)a[i] == 4214821)
+       {
 
-   //
+           newMessage = a+i;
+           cout << newMessage << endl;
+           break;
+       }
+   }
+
    ////////////////////////////////////////////////
 }
