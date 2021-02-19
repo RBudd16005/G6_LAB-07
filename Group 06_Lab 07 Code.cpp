@@ -35,9 +35,6 @@ int main() {
    cout << "\tmessage:          " << message           << endl;
    cout << "\tfunction pointer: ";
    pointerFunction();
-    
-    cout << "PASS: " << &pass << endl;
-    cout << "FAIL: " << &fail << endl;
 
    // call the other functions
    one(number + 111111);     // 234567
