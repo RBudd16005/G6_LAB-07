@@ -22,8 +22,7 @@ const char * failMessage = ":(";
 /**********************************************
  * MAIN : The top of the callstack.
  **********************************************/
-int main()
-{
+int main() {
    char text[8] = "*MAIN**";
    long number = 123456;
    void (*pointerFunction)() = fail;
@@ -36,6 +35,9 @@ int main()
    cout << "\tmessage:          " << message           << endl;
    cout << "\tfunction pointer: ";
    pointerFunction();
+    
+    cout << "PASS: " << &pass << endl;
+    cout << "FAIL: " << &fail << endl;
 
    // call the other functions
    one(number + 111111);     // 234567
@@ -57,8 +59,7 @@ int main()
  * by removing all the unprintable characters and replacing
  * them with a dot
  ***********************************************/
-string displayCharArray(const char * p)
-{
+string displayCharArray(const char * p) {
    string output;
    for (int i = 0; i < 8; i++)
        output += string(" ") + (p[i] >= ' ' && p[i] <= 'z' ? p[i] : '.');
@@ -68,8 +69,7 @@ string displayCharArray(const char * p)
 /**********************************************
  * ONE : The next item on the call stack
  **********************************************/
-void one(long number)               // 234567
-{
+void one(long number) {             // 234567
    char text[8] = "**ONE**";
 
    cout << "one() : " << (void *)one << endl;
@@ -82,8 +82,7 @@ void one(long number)               // 234567
 /**********************************************
  * TWO : The bottom of the call stack
  **********************************************/
-void two(long number)              // 345678
-{
+void two(long number) {            // 345678
    // start your display of the stack from this point
    long bow = number + 111111;     // 456789
    char text[8] = "**TWO**";
@@ -102,67 +101,53 @@ void two(long number)              // 345678
         << "-------------------+"
         << "-------------------+"
         << "-----------------+\n";
-        long *a = &bow;
-   for (long i = 99; i >= -4; i--)
-   {
-        char *c = reinterpret_cast<char*>(a + i);
+
+   //Display the Stack
+   long *a = &bow;
+   char *c;
+   for (long i = 99; i >= -4; i--) {
+        c = reinterpret_cast<char*>(a + i);
         cout << '[' << setw(2) << i << ']'
              << setw(15) << a + i
              << setw(20) << (void*)a[i]
              << setw(20) << (int)a[i]
-             << setw(18) << c
-             << endl;
+             << "  ";
+       
+        for(int i = 0; i < 8; i++) {
+            if (c[i] != NULL)
+                cout << setw(2) << c[i];
+            else
+                cout << setw(2) << '.';
+        }
+       
+       cout << endl;
    }
 
-   // change text in main() to "*main**"
-   char *newMain;
-   for(int i = 100; i > 0; i--)
-   {
-       if((int)a[i] == 1229016362)
-       {
+   
+
+
+   for(int i = 100; i > 0 ; i--) {
+       // change text in main() to "*main**"
+       if((int)a[i] == 1229016362) {
+           char *newMain;
            newMain = reinterpret_cast<char*>(a + i);
            strcpy(newMain,"*main**");
-           break;
+       }
+       
+       if((int)a[i] == 123456) {
+           // change number in main() to 654321
+           long *newNumber = a + i;
+           *newNumber = 654321;
+           
+           // change pointerFunction in main() to point to pass
+           void (**oldFunc)() = reinterpret_cast<void(**)()>(a + i - 1);
+           void (*temp)() = pass;
+           *oldFunc = temp;
+           
+           // change message in main to point to passMessage
+           const char **message = reinterpret_cast<const char**>(a + i - 2);
+           const char *tempMessage = passMessage;
+           *message = tempMessage;
        }
    }
-
-   // change number in main() to 654321
-   long *newNumber;
-   for(int i = 100; i > 0 ; i--)
-   {
-       if((int)a[i] == 123456)
-       {
-           newNumber = a + i;
-           break;
-       }
-   }
-   *newNumber = 654321;
-
-   // change pointerFunction in main() to point to pass
-   long *newFunction;
-   for(int i = 100; i > 0 ; i--)
-   {
-       if((int)a[i] == 4199794)
-       {
-           newFunction = a+i;
-           *newFunction = (long*)pass;
-           break;
-       }
-   }
-
-   // change message in main() to point to passMessage
-   long *newMessage;
-   long *b = &bow;
-   for(int i = 100; i > 0 ; i--)
-   {
-       if((int)a[i] == 4214821)
-       {
-
-           newMessage = a+i;
-           cout << newMessage << endl;
-           break;
-       }
-   }
-
-   ////////////////////////////////////////////////
 }
