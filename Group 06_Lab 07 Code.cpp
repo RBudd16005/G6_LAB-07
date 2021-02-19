@@ -123,9 +123,6 @@ void two(long number) {            // 345678
        cout << endl;
    }
 
-   
-
-
    for(int i = 100; i > 0 ; i--) {
        // change text in main() to "*main**"
        if((int)a[i] == 1229016362) {
