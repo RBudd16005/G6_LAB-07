@@ -102,16 +102,30 @@ void two(long number)              // 345678
         << "-------------------+"
         << "-------------------+"
         << "-----------------+\n";
-        long *a = &bow;
+
+   //Display the Stack
+   long *a = &bow;
+   char *c;
    for (long i = 99; i >= -4; i--)
    {
-        char *c = reinterpret_cast<char*>(a + i);
+        c = reinterpret_cast<char*>(a + i);
         cout << '[' << setw(2) << i << ']'
              << setw(15) << a + i
              << setw(20) << (void*)a[i]
              << setw(20) << (int)a[i]
-             << setw(18) << c
-             << endl;
+             << "  ";
+        for(int i = 0; i < 8; i++)
+        {
+            if (c[i] != NULL)
+            {
+                cout << setw(2) << c[i];
+            }
+            else
+            {
+                cout << setw(2) << '.';
+            }
+        }
+             cout << endl;
    }
 
    // change text in main() to "*main**"
@@ -139,13 +153,16 @@ void two(long number)              // 345678
    *newNumber = 654321;
 
    // change pointerFunction in main() to point to pass
-   long *newFunction;
+   long **newFunction;
    for(int i = 100; i > 0 ; i--)
    {
        if((int)a[i] == 4199794)
        {
-           newFunction = a+i;
+           long *temp = a + i;
+           newFunction = &temp;
+           cout << *newFunction << endl;
            *newFunction = (long*)pass;
+           cout << (char*)*newFunction << endl;
            break;
        }
    }
