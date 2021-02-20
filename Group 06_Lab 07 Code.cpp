@@ -69,7 +69,7 @@ string displayCharArray(const char * p) {
 void one(long number) {             // 234567
    char text[8] = "**ONE**";
 
-   cout << "one() : " << (void *)one << endl;
+   cout << "\tone() : " << (void *)one << endl;
    cout << "\tmessage: " << (void *)failMessage << endl;
    cout << "\tfail():  " << (void *)fail        << endl;
 
@@ -99,26 +99,20 @@ void two(long number) {            // 345678
         << "-------------------+"
         << "-----------------+\n";
 
-   //Display the Stack
-   long *a = &bow;
-   char *c;
-   for (long i = 99; i >= -4; i--) {
+    //Display the Stack
+    long *a = &bow;
+    char *c;
+    for (long i = 34; i >= -4; i--) {
         c = reinterpret_cast<char*>(a + i);
-        cout << '[' << setw(2) << i << ']'
-             << setw(15) << a + i
-             << setw(20) << (void*)a[i]
-             << setw(20) << (int)a[i]
-             << "  ";
-       
-        for(int i = 0; i < 8; i++) {
-            if (c[i] != NULL)
-                cout << setw(2) << c[i];
-            else
-                cout << setw(2) << '.';
+        // filters out padding
+        if ((int)a[i] != (int)a[i + 1]) {
+            cout << '[' << setw(2) << i << ']'
+                 << setw(15) << a + i
+                 << setw(20) << (void*)a[i]
+                 << setw(20) << (int)a[i] << "  "
+                 << setw(2) << displayCharArray(c) << endl;
         }
-       
-       cout << endl;
-   }
+    }
 
    for(int i = 100; i > 0 ; i--) {
        // change text in main() to "*main**"
